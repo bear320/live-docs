@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Editor } from "@/components/editor/Editor";
+import Image from "next/image";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ClientSideSuspense, RoomProvider } from "@liveblocks/react/suspense";
+import { Input } from "./ui/input";
+import { Editor } from "@/components/editor/Editor";
+import { updateDocument } from "@/lib/actions/room.actions";
+import Loader from "./Loader";
 import Header from "@/components/Header";
 import ActiveCollaborators from "./ActiveCollaborators";
-import { Input } from "./ui/input";
-import Image from "next/image";
-import { updateDocument } from "@/lib/actions/room.actions";
 
 const CollaborativeRoom = ({
   roomId,
@@ -71,7 +72,7 @@ const CollaborativeRoom = ({
 
   return (
     <RoomProvider id={roomId}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header className="">
             <div
