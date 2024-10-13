@@ -14,6 +14,8 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import UserTypeSelector from "./UserTypeSelector";
+import Collaborator from "./Collaborator";
 
 const ShareModal = ({
   roomId,
@@ -62,7 +64,7 @@ const ShareModal = ({
           Email address
         </Label>
         <div className="flex items-center gap-3">
-          <div className="bg-dark 400 flex flex-1 rounded-md">
+          <div className="flex flex-1 rounded-md bg-dark-400">
             <Input
               id="email"
               value={email}
@@ -70,7 +72,31 @@ const ShareModal = ({
               onChange={(e) => setEmail(e.target.value)}
               className="share-input"
             />
+            <UserTypeSelector userType={userType} setUserType={setUserType} />
           </div>
+          <Button
+            type="submit"
+            className="gradient-blue flex h-full gap-1 px-5"
+            disabled={loading}
+            onClick={handleShareDocument}
+          >
+            {loading ? "Sending..." : "Invite"}
+          </Button>
+        </div>
+
+        <div className="my-2 space-y-2">
+          <ul className="flex flex-col">
+            {collaborators.map((collaborator) => (
+              <Collaborator
+                key={collaborator.id}
+                roomId={roomId}
+                creatorId={creatorId}
+                collaborator={collaborator}
+                email={email}
+                user={user.info}
+              />
+            ))}
+          </ul>
         </div>
       </DialogContent>
     </Dialog>
